@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Atasan;
 
+use App\Export\ExportPeminjaman;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PeminjamanController
 {
@@ -125,5 +128,30 @@ class PeminjamanController
                 $pinjam->update(['keterangan' => 'terlambat']);
             }
         }
+    }
+
+    public function excel()
+    {
+
+        return Excel::download(new ExportPeminjaman(), 'Data Peminjaman-' . date(now()) . '.xlsx');
+    }
+    public function pdf()
+    {
+        $peminjaman = Peminjaman::select(
+            'detail_kegiatan',
+            'tgl_peminjaman',
+            'batas_peminjaman',
+            'jumlah_pinjam',
+            'keterangan',
+            'pengguna.nama_pengguna as pengguna',
+            'barang.nama_barang as barang'
+        )
+            ->join('pengguna', 'pengguna.id_pengguna', '=', 'peminjaman.id_pengguna')
+            ->join('barang', 'barang.id_barang', '=', 'peminjaman.id_barang')
+            ->get();
+
+        view()->share('data', $peminjaman);
+        $pdf = PDF::loadview('admin/content/peminjaman/pdf');
+        return $pdf->download('Data Peminjaman.pdf');
     }
 }

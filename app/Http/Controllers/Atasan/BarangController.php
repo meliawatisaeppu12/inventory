@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Atasan;
 
 use App\Http\Controllers\Controller;
 use App\Models\barang;
+use App\Export\ExportBarang;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarangController extends Controller
 {
@@ -14,5 +17,19 @@ class BarangController extends Controller
         $barang = barang::all();
 
         return view('atasan.content.barang.index', compact('barang'));
+    }
+
+    public function excel()
+    {
+
+        return Excel::download(new ExportBarang(), 'Data Barang-' . date(now()) . '.xlsx');
+    }
+    public function pdf()
+    {
+        $barang = barang::all();
+
+        view()->share('data', $barang);
+        $pdf = PDF::loadview('admin/content/barang/pdf');
+        return $pdf->download('Data Barang.pdf');
     }
 }

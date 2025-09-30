@@ -20,11 +20,9 @@
         <h4 class="text-center font-weight-bold text-white" style="margin-top: 20px">DAFTAR PEMINJAMAN</h4>
     </div>
     <div class="card-block">
-        <a class="btn btn-success tb-detail mb-3" href="#"
-            data-toggle="modal" data-target="#filterCetakExcelModal"><i class="fa fa-file-pdf-o"></i> Excel
+        <a class="btn btn-success tb-detail mb-3" href="{{route('atasan.peminjaman.excel')}}"><i class="fa fa-file-pdf-o"></i> Excel
         </a>
-        <a class="btn btn-danger tb-detail mb-3" href="#"
-            data-toggle="modal" data-target="#filterCetakPdfModal"><i class="fa fa-file-pdf-o"></i> PDF
+        <a class="btn btn-danger tb-detail mb-3" href="{{route('atasan.peminjaman.pdf')}}"><i class="fa fa-file-pdf-o"></i> PDF
         </a>
         <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 

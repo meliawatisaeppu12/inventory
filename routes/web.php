@@ -127,11 +127,17 @@ Route::group(['middleware' => 'auth:atasan'], function () {
         // Barang
         Route::prefix('barang')->group(function () {
             Route::get('/index', [App\Http\Controllers\Atasan\BarangController::class, 'index'])->name('atasan.barang.index');
+
+            Route::get('/excel', [App\Http\Controllers\Atasan\BarangController::class, 'excel'])->name('atasan.barang.excel');
+            Route::get('/pdf', [App\Http\Controllers\Atasan\BarangController::class, 'pdf'])->name('atasan.barang.pdf');
         });
 
         // peminjaman
         Route::prefix('peminjaman')->group(function () {
             Route::get('/index', [App\Http\Controllers\Atasan\PeminjamanController::class, 'index'])->name('atasan.peminjaman.index');
+
+            Route::get('/excel', [App\Http\Controllers\Atasan\PeminjamanController::class, 'excel'])->name('atasan.peminjaman.excel');
+            Route::get('/pdf', [App\Http\Controllers\Atasan\PeminjamanController::class, 'pdf'])->name('atasan.peminjaman.pdf');
         });
     });
 });
