@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIKEMAS DISKOMINFO</title>
+    <title>SIPESET DISKOMINFO</title>
     <link rel="icon" href="{{ URL::asset('assets/img/logo.png') }}" />
 
     <!-- Bootstrap 5 -->

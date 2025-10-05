@@ -40,7 +40,7 @@ class LoginController extends Controller
             'password' => $request->password,
             'role' => 'staff'
         ])) {
-            return redirect()->intended('/staff/index');
+            return redirect()->intended('/staff/dashboard');
         }
 
         // Coba login sebagai atasan
