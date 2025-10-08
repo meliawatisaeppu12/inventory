@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>SIPESET DISKOMINFO</title>
+    <title>SEPAKAT DISKOMINFO</title>
     <link rel='icon' href="{{URL::asset('assets/img/logo.png')}}" />
 
 

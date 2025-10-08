@@ -14,7 +14,7 @@ if (isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIPESET DISKOMINFO</title>
+    <title>SEPAKAT DISKOMINFO</title>
     <link rel='icon' href="{{URL::asset('assets/img/logo.png')}}" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -55,7 +55,7 @@ if (isset($_SESSION['username'])) {
 
             <!-- Judul -->
             <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-3 fade-in-up" style="animation-delay: 0.4s;">
-                SISTEM INFORMASI PEMINJAMAN ASET (SIPESET)
+                SISTEM PINJAM KEMBALI ASET (SEPAKAT)
             </h1>
 
             <!-- Subjudul -->
