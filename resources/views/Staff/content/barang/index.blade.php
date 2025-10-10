@@ -1,5 +1,5 @@
-@extends('staff/layout/main')
-@section('staff.content')
+@extends('Staff/layout/main')
+@section('Staff/content')
 
 @if ($message = Session::get('success'))
 <div class="alert alert-success alert-block">
@@ -19,7 +19,7 @@
     <div class="card-header-lg" style="background-color: #2c313e">
         <h4 class="text-center font-weight-bold text-white" style="margin-top: 15px">DAFTAR BARANG</h4>
     </div>
-    <div class="card-block">
+    <div class="card-block table-responsive">
 
         <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
 

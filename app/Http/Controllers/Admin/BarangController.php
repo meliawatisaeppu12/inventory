@@ -16,12 +16,12 @@ class BarangController extends Controller
     {
         $barang = barang::all();
 
-        return view('admin.content.barang.index', compact('barang'));
+        return view('Admin/content/barang/index', compact('barang'));
     }
 
     public function tambah()
     {
-        return view('admin.content.barang.tambah');
+        return view('Admin/content/barang/tambah');
     }
 
     public function store(Request $request)
@@ -59,7 +59,7 @@ class BarangController extends Controller
     public function edit($id_barang)
     {
         $barang = barang::findOrFail($id_barang);
-        return view('admin/content/barang/edit', compact('barang'));
+        return view('Admin/content/barang/edit', compact('barang'));
     }
 
     public function update(Request $request, $id_barang)
@@ -76,9 +76,9 @@ class BarangController extends Controller
 
         try {
             $barang->update();
-            return redirect(route('admin.barang.index'))->with(['success', 'Ubah Data Berhasil']);
+            return redirect(route('admin.barang.index'))->with(['success' => 'Ubah Data Berhasil']);
         } catch (\Exception $e) {
-            return redirect(route('admin.barang.index'))->with(['warning', 'Ubah Data Gagal']);
+            return redirect(route('admin.barang.index'))->with(['warning' => 'Ubah Data Gagal']);
         }
     }
 
@@ -89,9 +89,9 @@ class BarangController extends Controller
 
         try {
             $barang->delete();
-            return redirect()->route('admin.barang.index')->with('Berhasil', 'Anda Berhasil Menghapus Data Barang!');
+            return redirect(route('admin.barang.index'))->with(['success' => 'Anda Berhasil Menghapus Data Barang!']);
         } catch (\Exception $e) {
-            return redirect()->route('admin.barang.index')->with('Gagal', 'Anda Gagal Menghapus Data Barang!');
+            return redirect(route('admin.barang.index'))->with(['warning' => 'Anda Gagal Menghapus Data Barang!']);
         }
     }
 
@@ -106,7 +106,7 @@ class BarangController extends Controller
         $barang = barang::all();
 
         view()->share('data', $barang);
-        $pdf = PDF::loadview('admin/content/barang/pdf');
+        $pdf = PDF::loadview('Admin/content/barang/pdf');
         return $pdf->download('Data Barang.pdf');
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Models\Barang;
-use App\Models\Peminjaman;
-use App\Models\Pengguna;
+use App\Models\barang;
+use App\Models\peminjaman;
+use App\Models\pengguna;
 use App\Export\ExportPeminjaman;
 use App\Export\ExportPeminjamanPengguna;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class PeminjamanController
 {
     public function index()
     {
-        $peminjaman = Peminjaman::select(
+        $peminjaman = peminjaman::select(
             'peminjaman.*',
             'pengguna.nama_pengguna as pengguna',
             'barang.nama_barang as barang'
@@ -35,14 +35,14 @@ class PeminjamanController
             }
         }
 
-        return view('staff.content.peminjaman.index', compact('peminjaman'));
+        return view('Staff/content/peminjaman/index', compact('peminjaman'));
     }
 
     public function tambah(Request $request)
     {
-        $peminjaman = Peminjaman::all();
-        $barang = Barang::all();
-        return view('staff.content.peminjaman.tambah', compact('peminjaman', 'barang'));
+        $peminjaman = peminjaman::all();
+        $barang = barang::all();
+        return view('Staff/content/peminjaman/tambah', compact('peminjaman', 'barang'));
     }
 
 
@@ -58,7 +58,7 @@ class PeminjamanController
             'jumlah_pinjam' => 'required|integer|min:1',
         ]);
 
-        $barang = Barang::findOrFail($request->id_barang);
+        $barang = barang::findOrFail($request->id_barang);
 
         // cek stok
         if ($barang->jumlah_tersedia < $request->jumlah_pinjam) {
@@ -69,7 +69,7 @@ class PeminjamanController
         $barang->jumlah_tersedia -= $request->jumlah_pinjam;
         $barang->save();
 
-        Peminjaman::create([
+        peminjaman::create([
             'detail_kegiatan'     => $request->detail_kegiatan,
             'tgl_peminjaman'      => $request->tgl_peminjaman,
             'batas_peminjaman'    => $request->batas_peminjaman,
@@ -86,14 +86,14 @@ class PeminjamanController
 
     public function edit(Request $request, $id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
-        $barang = Barang::all();
-        return view('staff.content.peminjaman.edit', compact('peminjaman', 'barang'));
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
+        $barang = barang::all();
+        return view('Staff/content/peminjaman/edit', compact('peminjaman', 'barang'));
     }
 
     public function update(Request $request, $id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
         $peminjaman->tgl_peminjaman   = $request->tgl_peminjaman;
         $peminjaman->detail_kegiatan  = $request->detail_kegiatan;
         $peminjaman->batas_peminjaman = $request->batas_peminjaman;
@@ -101,9 +101,9 @@ class PeminjamanController
         $peminjaman->id_barang        = $request->id_barang;
         $peminjaman->updated_pengguna_id = Auth::guard('staff')->user()->id_pengguna;
 
-        // jika status diubah jadi dikembalikan
+        // jika status dikembalikan
         if ($request->keterangan === 'dikembalikan' && $peminjaman->keterangan !== 'dikembalikan') {
-            $barang = Barang::findOrFail($peminjaman->id_barang);
+            $barang = barang::findOrFail($peminjaman->id_barang);
             $barang->jumlah_tersedia += $peminjaman->jumlah_pinjam;
             $barang->save();
         }
@@ -121,7 +121,7 @@ class PeminjamanController
     // Update status keterlambatan otomatis khusus untuk staff yang login
     public function cekTerlambat()
     {
-        $peminjaman = Peminjaman::where('keterangan', 'dipinjam')
+        $peminjaman = peminjaman::where('keterangan', 'dipinjam')
             ->where('id_pengguna', Auth::guard('staff')->user()->id_pengguna) // filter hanya milik staff login
             ->get();
 
@@ -140,7 +140,7 @@ class PeminjamanController
 
     public function pdf()
     {
-        $peminjaman = Peminjaman::select(
+        $peminjaman = peminjaman::select(
             'detail_kegiatan',
             'tgl_peminjaman',
             'batas_peminjaman',
@@ -155,7 +155,7 @@ class PeminjamanController
             ->get();
 
         view()->share('data', $peminjaman);
-        $pdf = PDF::loadview('admin/content/peminjaman/pdf');
+        $pdf = PDF::loadview('Admin/content/peminjaman/pdf');
 
         return $pdf->download('Data Peminjaman.pdf');
     }

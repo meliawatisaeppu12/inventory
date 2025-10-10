@@ -2,7 +2,7 @@
 
 namespace App\Export;
 
-use App\Models\Barang;
+use App\Models\barang;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -15,7 +15,7 @@ class ExportBarang implements FromCollection, WithHeadings, WithMapping, WithSty
 
     public function collection()
     {
-        return Barang::select(
+        return barang::select(
             'kode_barang',
             'kode_lokasi',
             'nama_barang',

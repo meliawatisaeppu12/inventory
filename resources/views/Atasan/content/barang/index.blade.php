@@ -1,5 +1,5 @@
-@extends('atasan/layout/main')
-@section('atasan.content')
+@extends('Atasan/layout/main')
+@section('Atasan/content')
 
 @if ($message = Session::get('success'))
 <div class="alert alert-success alert-block">
@@ -19,7 +19,7 @@
     <div class="card-header-lg" style="background-color: #2c313e">
         <h4 class="text-center font-weight-bold text-white" style="margin-top: 20px">DAFTAR BARANG</h4>
     </div>
-    <div class="card-block">
+    <div class="card-block table-responsive">
         <a class="btn btn-success tb-detail mb-3" href="{{route('atasan.barang.excel')}}"><i class="fa fa-file-pdf-o"></i> Excel
         </a>
         <a class="btn btn-danger tb-detail mb-3" href="{{route('atasan.barang.pdf')}}"><i class="fa fa-file-pdf-o"></i> PDF

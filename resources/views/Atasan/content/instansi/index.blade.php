@@ -1,5 +1,5 @@
-@extends('atasan/layout/main')
-@section('atasan.content')
+@extends('Atasan/layout/main')
+@section('Atasan/content')
 
 @if ($message = Session::get('success'))
 <div class="alert alert-success alert-block">

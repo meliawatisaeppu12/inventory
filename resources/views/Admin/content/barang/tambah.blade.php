@@ -1,5 +1,5 @@
-@extends('admin/layout/main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 <div class="card">
     <div class="card-header-lg" style="background-color: #2c313e">
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-             <div class="row mb-3">
+            <div class="row mb-3">
                 <label for="nama_barang" class="col-sm-2 col-form-label">Nama Barang</label>
                 <div class="col-sm-10">
                     <input type="text" name="nama_barang" class="form-control" id="nama_barang" placeholder="NAMA BARANG" required>
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-             <div class="row mb-3">
+            <div class="row mb-3">
                 <label for="nomor_registrasi" class="col-sm-2 col-form-label">Nomor Registrasi</label>
                 <div class="col-sm-10">
                     <input type="text" name="nomor_registrasi" class="form-control" id="nomor_registrasi" placeholder="NOMOR REGISTRASI">
@@ -72,7 +72,7 @@
                 </div>
             </div>
 
-            
+
             <div class="row mb-3">
                 <label for="jumlah_tersedia" class="col-sm-2 col-form-label">Jumlah Tersedia</label>
                 <div class="col-sm-10">
@@ -87,7 +87,7 @@
 
             <div class="text-right">
                 <input type="Submit" class="btn btn-success" value="Submit">
-                 <a href="{{route('admin.barang.index')}}" type="button" class="btn btn-danger">Batal</a>
+                <a href="{{route('admin.barang.index')}}" type="button" class="btn btn-danger">Batal</a>
             </div>
     </div>
     </form>

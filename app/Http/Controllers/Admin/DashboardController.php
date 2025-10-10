@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $totalInstansi    = instansi::count();              // jumlah instansi
         $totalPeminjaman  = peminjaman::count();            // jumlah peminjaman
 
-        return view('admin/content/dashboard', compact(
+        return view('Admin/content/dashboard', compact(
             'totalBarang',
             'totalStokBarang',
             'totalInstansi',

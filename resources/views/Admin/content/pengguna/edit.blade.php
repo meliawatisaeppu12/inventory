@@ -1,5 +1,5 @@
-@extends('admin.layout/main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 <div class="card">
     <div class="card-header-lg" style="background-color: #2c313e">
@@ -8,15 +8,15 @@
     <div class="card-body">
         <form action="{{route('admin.pengguna.update', $pengguna->id_pengguna)}}" method="post" enctype="multipart/form-data">
             @csrf
-            
+
             <div class="row mb-3">
                 <label for="role" class="col-sm-2 col-form-label">Role</label>
                 <div class="col-sm-10">
-                    <div class="form-check form-check-inline" >
+                    <div class="form-check form-check-inline">
                         <label for="role">
                             <input type="radio" name="role" value="admin" id="role" checked> Admin
-                            <input type="radio" name="role" value="staff" id="role" > Staff
-                            <input type="radio" name="role" value="atasan" id="role" > Atasan
+                            <input type="radio" name="role" value="staff" id="role"> Staff
+                            <input type="radio" name="role" value="atasan" id="role"> Atasan
                         </label>
                     </div>
                 </div>
@@ -87,9 +87,9 @@
                 </div>
             </div>
             @error('id_instansi')
-                <div class="form-tooltip-error sm">{{ $message }}</div>
+            <div class="form-tooltip-error sm">{{ $message }}</div>
             @enderror
-               
+
 
             <div class="text-right">
                 <input type="Submit" class="btn btn-success" value="Submit">

@@ -1,5 +1,5 @@
-@extends('admin/layout/main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 
 <div class="card">
@@ -31,7 +31,7 @@
             <div class="error">{{ $message }}</div>
             @enderror
 
-           
+
             <div class="text-right">
                 <input type="Submit" class="btn btn-success" value="Submit">
                 <a href="{{route('admin.instansi.index')}}" type="button" class="btn btn-danger">Batal</a>

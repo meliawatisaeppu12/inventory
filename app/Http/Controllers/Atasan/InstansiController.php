@@ -13,6 +13,6 @@ class InstansiController extends Controller
     {
         $instansi = instansi::all();
 
-        return view('atasan.content.instansi.index', compact('instansi'));
+        return view('Atasan/content/instansi/index', compact('instansi'));
     }
 }

@@ -14,6 +14,6 @@ class BarangController extends Controller
     {
         $barang = barang::all();
 
-        return view('staff.content.barang.index', compact('barang'));
+        return view('Staff/content/barang/index', compact('barang'));
     }
 }

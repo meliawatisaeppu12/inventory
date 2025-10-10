@@ -1,5 +1,5 @@
-@extends('admin/layout/main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 
 <div class="card">
@@ -51,7 +51,7 @@
             <div class="error">{{ $message }}</div>
             @enderror
 
-            
+
             <div class="row mb-3">
                 <label for="jumlah_barang" class="col-sm-2 col-form-label">Jumlah Barang</label>
                 <div class="col-sm-10">
@@ -62,7 +62,7 @@
             <div class="error">{{ $message }}</div>
             @enderror
 
-            
+
             <div class="row mb-3">
                 <label for="jumlah_tersedia" class="col-sm-2 col-form-label">Jumlah Tersedia</label>
                 <div class="col-sm-10">

@@ -1,5 +1,5 @@
-@extends('staff/layout/main')
-@section('staff.content')
+@extends('Staff/layout/main')
+@section('Staff/content')
 
 {{-- Notifikasi --}}
 @if(session('success'))

@@ -13,12 +13,12 @@ class InstansiController extends Controller
     {
         $instansi = instansi::all();
 
-        return view('admin.content.instansi.index', compact('instansi'));
+        return view('Admin/content/instansi/index', compact('instansi'));
     }
 
     public function tambah()
     {
-        return view('admin.content.instansi.tambah');
+        return view('Admin/content/instansi/tambah');
     }
 
     public function store(Request $request)
@@ -48,7 +48,7 @@ class InstansiController extends Controller
     public function edit($id_instansi)
     {
         $instansi = instansi::findOrFail($id_instansi);
-        return view('admin/content/instansi/edit', compact('instansi'));
+        return view('Admin/content/instansi/edit', compact('instansi'));
     }
 
     public function update(Request $request, $id_instansi)
@@ -60,9 +60,9 @@ class InstansiController extends Controller
 
         try {
             $instansi->update();
-            return redirect(route('admin.instansi.index'))->with(['success', 'Ubah Data Instansi Berhasil']);
+            return redirect(route('admin.instansi.index'))->with(['success' => 'Ubah Data Instansi Berhasil']);
         } catch (\Exception $e) {
-            return redirect(route('admin.instansi.index'))->with(['warning', 'Ubah Data Instansi Gagal']);
+            return redirect(route('admin.instansi.index'))->with(['Warning' => 'Ubah Data Instansi Gagal']);
         }
     }
 
@@ -72,9 +72,9 @@ class InstansiController extends Controller
 
         try {
             $instansi->delete();
-            return redirect()->route('admin.instansi.index')->with('Berhasil', 'Anda Berhasil Menghapus Data Instansi!');
+            return redirect(route('admin.instansi.index'))->with(['success' => 'Anda Berhasil Menghapus Data Instansi!']);
         } catch (\Exception $e) {
-            return redirect()->route('admin.instansi.index')->with('Berhasil', 'Anda Gagal Menghapus Data Instansi!');
+            return redirect(route('admin.instansi.index'))->with(['warning' => 'Anda Gagal Menghapus Data Instansi!']);
         }
     }
 }

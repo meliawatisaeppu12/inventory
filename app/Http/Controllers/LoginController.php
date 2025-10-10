@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ResetPasswordAkun;
-use App\Models\Pengguna;
+use App\Models\pengguna;
 use App\Util\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -69,88 +73,75 @@ class LoginController extends Controller
         return redirect(route('login.index'));
     }
 
-    public function reset()
+    // 1️⃣ Form lupa password
+    public function forgot()
     {
-        return view('reset');
+        return view('forgot-password');
     }
 
-    public function forgot(Request $request)
+    // 2️⃣ Kirim link reset via email
+    public function sendResetLink(Request $request)
     {
-        date_default_timezone_set('Asia/Jakarta');
-        $this->validate($request, [
-            'email' => 'email:rfc,dns',
+        $request->validate(['email' => 'required|email']);
+
+        $user = pengguna::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->with('error', 'Email tidak ditemukan.');
+        }
+
+        $token = Str::random(64);
+
+        DB::table('password_resets')->updateOrInsert(
+            ['email' => $request->email],
+            ['token' => $token, 'created_at' => Carbon::now()]
+        );
+
+        $resetLink = route('password.reset', $token);
+
+        Mail::send('emails.reset-password', ['resetLink' => $resetLink], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Reset Password Akun Anda');
+        });
+
+        return back()->with('success', 'Link reset password telah dikirim ke email Anda.');
+    }
+
+    // 3️⃣ Tampilkan form reset password
+    public function showResetForm($token)
+    {
+        $record = DB::table('password_resets')->where('token', $token)->first();
+
+        if (!$record) {
+            return redirect()->route('login.index')->with('error', 'Token tidak valid atau sudah kadaluarsa.');
+        }
+
+        $emailHash = $record->email;
+
+        return view('reset-password', compact('emailHash'));
+    }
+
+    // Proses ubah password
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:6|same:new_password',
+            'new_password' => 'required|min:6'
         ]);
 
-        if (Pengguna::where('email', $request->email)->exists()) {
-            $pengguna = Pengguna::where('email', $request->email)->first();
-            $token = $this->generateToken(24);
+        $email = $request->remember_token; // ini email yang dikirim dari form
 
-            $pengguna->remember_token = $token;
+        $user = pengguna::where('email', $email)->first();
 
-            try {
-                $pengguna->save();
-
-                $email = Helper::encrypt($request->email);
-                $reset_token = $pengguna->remember_token;
-
-                $link = route('login.password', [$email, $reset_token]);
-
-                Mail::to($request->email)->send(new ResetPasswordAkun($pengguna->name, $link));
-
-                return redirect(route('login.reset'))->with('success', 'Silahkan cek email Anda untuk melakukan reset');
-            } catch (\Exception $e) {
-                return redirect(route('login.reset'))->with('error', 'Gagal mengatur ulang password. Pastikan Input email yang tepat');
-            }
-        } else {
-            return redirect(route('login.reset'))->with('pesan', 'Email belum Terdaftar');
+        if (!$user) {
+            return back()->with('error', 'User tidak ditemukan.');
         }
-    }
 
-    public function password($emailHash, $token)
-    {
-        date_default_timezone_set('Asia/Jakarta');
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-        $email = Helper::decrypt($emailHash);
-        $pengguna = Pengguna::where('email', $email)->first();
+        DB::table('password_resets')->where('email', $email)->delete();
 
-        if ($pengguna->remember_token == $token) {
-            return view('renew', compact('emailHash'));
-        } else {
-            return redirect(route('login.reset'))->with('pesan', 'Token tidak valid');
-        }
-    }
-
-    public function renew(Request $request)
-    {
-        $this->validate($request, [
-            'password' => 'required|min:6',
-            'new_password' => 'required|same:password',
-            'remember_token' => 'required'
-        ], [
-            'password.min'      => 'Password Minimal 6 Karakter',
-            'new_password.same' => 'Konfirmasi Password berbeda!',
-        ]);
-
-        $email = Helper::decrypt($request->remember_token);
-        $pengguna = Pengguna::where('email', $email)->first();
-        $pengguna->password = bcrypt($request->password);
-
-        try {
-            $pengguna->save();
-            return redirect(route('login.reset'))->with('success', 'Selamat, Password Anda Berhasil Diubah');
-        } catch (\Exception $e) {
-            return redirect(route('login.renew'))->with('error', 'Gagal mengatur ulang password.');
-        }
-    }
-
-    private function generateToken($length = 10)
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
+        return redirect()->route('login.index')->with('success', 'Password berhasil diubah. Silakan login kembali.');
     }
 }

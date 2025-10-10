@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -13,13 +14,14 @@ Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->na
 Route::post('/login', [App\Http\Controllers\LoginController::class, 'verify'])->name('login.verify');
 //logout
 Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('login.logout');
-//riset password
-Route::get('/reset-password', [App\Http\Controllers\LoginController::class, 'reset'])->name('login.reset');
-Route::post('/forgot', [App\Http\Controllers\LoginController::class, 'forgot'])->name('login.forgot');
-//renew password
-Route::get('/password/{email}/{remember_token}', [App\Http\Controllers\LoginController::class, 'password'])->name('login.password');
-Route::post('/renew', [App\Http\Controllers\LoginController::class, 'renew'])->name('login.renew');
 
+// Form minta reset password
+Route::get('/forgot-password', [App\Http\Controllers\LoginController::class, 'forgot'])->name('password.request');
+Route::post('/forgot-password', [App\Http\Controllers\LoginController::class, 'sendResetLink'])->name('password.email');
+
+// Form reset password
+Route::get('/reset-password/{remember_token}', [App\Http\Controllers\LoginController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [App\Http\Controllers\LoginController::class, 'resetPassword'])->name('login.renew');
 
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::prefix('admin')->group(function () {
@@ -140,4 +142,17 @@ Route::group(['middleware' => 'auth:atasan'], function () {
             Route::get('/pdf', [App\Http\Controllers\Atasan\PeminjamanController::class, 'pdf'])->name('atasan.peminjaman.pdf');
         });
     });
+});
+
+
+Route::get('/tes-email', function () {
+    try {
+        Mail::raw('Ini hanya tes kirim email dari Laravel.', function ($message) {
+            $message->to('alamat_email_tujuan@gmail.com')
+                ->subject('Tes Email dari Laravel');
+        });
+        return '✅ Email berhasil dikirim!';
+    } catch (\Exception $e) {
+        return '❌ Gagal: ' . $e->getMessage();
+    }
 });

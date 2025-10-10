@@ -1,5 +1,5 @@
-@extends('admin/layout/main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 
 <div class="card">
@@ -20,7 +20,7 @@
             <div class="error">{{ $message }}</div>
             @enderror
 
-             <div class="row mb-3">
+            <div class="row mb-3">
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
                     <input name="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" id="formGroupExampleInput" required autofocus value="{{$instansi->alamat}}">

@@ -1,5 +1,5 @@
-@extends('staff.layout.main')
-@section('staff.content')
+@extends('Staff/layout/main')
+@section('Staff/content')
 
 @if ($message = Session::get('success'))
 <div class="alert alert-success alert-block">
@@ -20,7 +20,7 @@
     <div class="card-header-lg" style="background-color: #2c313e">
         <h4 class="text-center font-weight-bold text-white" style="margin-top: 15px">DAFTAR PEMINJAMAN</h4>
     </div>
-    <div class="card-block">
+    <div class="card-block table-responsive">
         <a href="{{route('staff.peminjaman.tambah')}}" class="ml-lg-3 mb-3 btn btn-default"><i class="fa fa-plus-circle"></i> Tambah</a>
         <a class="btn btn-success tb-detail mb-3" href="{{route('staff.peminjaman.excel')}}"><i class="fa fa-file-pdf-o"></i> Excel
         </a>
@@ -66,7 +66,7 @@
                         @elseif($row->keterangan === 'dikembalikan')
                         <span class="badge bg-primary">Dikembalikan</span>
                         @elseif($row->keterangan === 'terlambat')
-                        <span class="badge bg-danger">Terlambat</span>
+                        <span class="badge bg-secondary">Terlambat</span>
                         @endif
                     </td>
 

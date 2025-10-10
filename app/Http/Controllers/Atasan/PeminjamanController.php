@@ -16,7 +16,7 @@ class PeminjamanController
 {
     public function index()
     {
-        $peminjaman = Peminjaman::select(
+        $peminjaman = peminjaman::select(
             'peminjaman.*',
             'pengguna.nama_pengguna as pengguna',
             'barang.nama_barang as barang'
@@ -38,8 +38,8 @@ class PeminjamanController
 
     public function tambah(Request $request)
     {
-        $peminjaman = Peminjaman::all();
-        $barang = Barang::all();
+        $peminjaman = peminjaman::all();
+        $barang = barang::all();
         return view('atasan.content.peminjaman.tambah', compact('peminjaman', 'barang'));
     }
 
@@ -56,7 +56,7 @@ class PeminjamanController
             'jumlah_pinjam' => 'required|integer|min:1',
         ]);
 
-        $barang = Barang::findOrFail($request->id_barang);
+        $barang = barang::findOrFail($request->id_barang);
 
         // cek stok
         if ($barang->jumlah_tersedia < $request->jumlah_pinjam) {
@@ -67,7 +67,7 @@ class PeminjamanController
         $barang->jumlah_tersedia -= $request->jumlah_pinjam;
         $barang->save();
 
-        Peminjaman::create([
+        peminjaman::create([
             'detail_kegiatan'     => $request->detail_kegiatan,
             'tgl_peminjaman'      => $request->tgl_peminjaman,
             'batas_peminjaman'    => $request->batas_peminjaman,
@@ -84,14 +84,14 @@ class PeminjamanController
 
     public function edit(Request $request, $id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
-        $barang = Barang::all();
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
+        $barang = barang::all();
         return view('atasan.content.peminjaman.edit', compact('peminjaman', 'barang'));
     }
 
     public function update(Request $request, $id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
 
         $peminjaman->tgl_peminjaman   = $request->tgl_peminjaman;
         $peminjaman->detail_kegiatan  = $request->detail_kegiatan;
@@ -102,7 +102,7 @@ class PeminjamanController
 
         // jika status diubah jadi dikembalikan
         if ($request->keterangan === 'dikembalikan' && $peminjaman->keterangan !== 'dikembalikan') {
-            $barang = Barang::findOrFail($peminjaman->id_barang);
+            $barang = barang::findOrFail($peminjaman->id_barang);
             $barang->jumlah_tersedia += $peminjaman->jumlah_pinjam;
             $barang->save();
         }
@@ -120,7 +120,7 @@ class PeminjamanController
 
     public function cekTerlambat()
     {
-        $peminjaman = Peminjaman::where('keterangan', 'dipinjam')
+        $peminjaman = peminjaman::where('keterangan', 'dipinjam')
             ->get();
 
         foreach ($peminjaman as $pinjam) {
@@ -137,7 +137,7 @@ class PeminjamanController
     }
     public function pdf()
     {
-        $peminjaman = Peminjaman::select(
+        $peminjaman = peminjaman::select(
             'detail_kegiatan',
             'tgl_peminjaman',
             'batas_peminjaman',
@@ -151,7 +151,7 @@ class PeminjamanController
             ->get();
 
         view()->share('data', $peminjaman);
-        $pdf = PDF::loadview('admin/content/peminjaman/pdf');
+        $pdf = PDF::loadview('Admin/content/peminjaman/pdf');
         return $pdf->download('Data Peminjaman.pdf');
     }
 }

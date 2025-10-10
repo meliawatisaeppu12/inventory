@@ -1,5 +1,5 @@
-@extends('admin/layout/main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 
 <div class="card">

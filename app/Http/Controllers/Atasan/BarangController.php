@@ -16,7 +16,7 @@ class BarangController extends Controller
     {
         $barang = barang::all();
 
-        return view('atasan.content.barang.index', compact('barang'));
+        return view('Atasan.content.barang.index', compact('barang'));
     }
 
     public function excel()
@@ -29,7 +29,7 @@ class BarangController extends Controller
         $barang = barang::all();
 
         view()->share('data', $barang);
-        $pdf = PDF::loadview('admin/content/barang/pdf');
+        $pdf = PDF::loadview('Atasan/content/barang/pdf');
         return $pdf->download('Data Barang.pdf');
     }
 }

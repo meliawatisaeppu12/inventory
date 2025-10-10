@@ -1,11 +1,11 @@
-@extends('admin/layout/main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 {{-- Notifikasi --}}
 @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+<div class="alert alert-success">{{ session('success') }}</div>
 @elseif(session('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
+<div class="alert alert-danger">{{ session('error') }}</div>
 @endif
 
 <div class="card">
@@ -23,10 +23,10 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Peminjam</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" 
-                           value="{{ auth()->guard('admin')->user()->nama_pengguna }}" readonly>
-                    <input type="hidden" name="id_pengguna" 
-                           value="{{ auth()->guard('admin')->user()->id_pengguna }}">
+                    <input type="text" class="form-control"
+                        value="{{ auth()->guard('admin')->user()->nama_pengguna }}" readonly>
+                    <input type="hidden" name="id_pengguna"
+                        value="{{ auth()->guard('admin')->user()->id_pengguna }}">
                 </div>
             </div>
 
@@ -37,38 +37,38 @@
                     <select name="id_barang" id="id_barang" class="form-control" required>
                         <option disabled selected> - Pilih Barang -</option>
                         @foreach($barang as $item)
-                            <option value="{{ $item->id_barang }}" data-stok="{{ $item->jumlah_tersedia }}">
-                                {{ $item->nama_barang }} (stok: {{ $item->jumlah_tersedia }})
-                            </option>
+                        <option value="{{ $item->id_barang }}" data-stok="{{ $item->jumlah_tersedia }}">
+                            {{ $item->nama_barang }} (stok: {{ $item->jumlah_tersedia }})
+                        </option>
                         @endforeach
                     </select>
                     @error('id_barang')
-                        <div class="form-tooltip-error sm">{{ $message }}</div>
+                    <div class="form-tooltip-error sm">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
-            
-           {{-- Jumlah Pinjam --}}
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Jumlah</label>
-            <div class="col-sm-10">
-                <input type="number" id="jumlah_pinjam" name="jumlah_pinjam" class="form-control" min="1" required>
-                <small id="stok_warning" class="text-danger d-none">Jumlah pinjam melebihi stok!</small>
-                @error('jumlah_pinjam')
+
+            {{-- Jumlah Pinjam --}}
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Jumlah</label>
+                <div class="col-sm-10">
+                    <input type="number" id="jumlah_pinjam" name="jumlah_pinjam" class="form-control" min="1" required>
+                    <small id="stok_warning" class="text-danger d-none">Jumlah pinjam melebihi stok!</small>
+                    @error('jumlah_pinjam')
                     <div class="form-tooltip-error sm">{{ $message }}</div>
-                @enderror
+                    @enderror
+                </div>
             </div>
-        </div>
 
 
             {{-- Detail Kegiatan --}}
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Detail Kegiatan</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control @error('detail_kegiatan') is-invalid @enderror" 
-                           name="detail_kegiatan" value="{{ old('detail_kegiatan') }}" placeholder="Detail Kegiatan">
+                    <input type="text" class="form-control @error('detail_kegiatan') is-invalid @enderror"
+                        name="detail_kegiatan" value="{{ old('detail_kegiatan') }}" placeholder="Detail Kegiatan">
                     @error('detail_kegiatan')
-                        <div class="form-tooltip-error sm">{{ $message }}</div>
+                    <div class="form-tooltip-error sm">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
@@ -77,10 +77,10 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Tanggal Peminjaman</label>
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control @error('tgl_peminjaman') is-invalid @enderror" 
-                           name="tgl_peminjaman" value="{{ old('tgl_peminjaman') }}">
+                    <input type="datetime-local" class="form-control @error('tgl_peminjaman') is-invalid @enderror"
+                        name="tgl_peminjaman" value="{{ old('tgl_peminjaman') }}">
                     @error('tgl_peminjaman')
-                        <div class="form-tooltip-error sm">{{ $message }}</div>
+                    <div class="form-tooltip-error sm">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
@@ -89,10 +89,10 @@
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Batas Peminjaman</label>
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control @error('batas_peminjaman') is-invalid @enderror" 
-                           name="batas_peminjaman" value="{{ old('batas_peminjaman') }}">
+                    <input type="datetime-local" class="form-control @error('batas_peminjaman') is-invalid @enderror"
+                        name="batas_peminjaman" value="{{ old('batas_peminjaman') }}">
                     @error('batas_peminjaman')
-                        <div class="form-tooltip-error sm">{{ $message }}</div>
+                    <div class="form-tooltip-error sm">{{ $message }}</div>
                     @enderror
                 </div>
             </div>

@@ -1,5 +1,5 @@
-@extends('staff/layout/main')
-@section('staff.content')
+@extends('Staff/layout/main')
+@section('Staff/content')
 
 <div class="card">
     <div class="card-header-lg" style="background-color: #2c313e">

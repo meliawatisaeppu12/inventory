@@ -1,25 +1,26 @@
-@extends('admin.layout.main')
-@section('admin.content')
+@extends('Admin/layout/main')
+@section('Admin/content')
 
 @if ($message = Session::get('success'))
-<div class="alert alert-success alert-block">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    <strong>{{ $message }}</strong>
+<div class="custom-alert alert-success" id="alertBox">
+    <span class="alert-message">{{ $message }}</span>
+    <button type="button" class="alert-close" data-dismiss="alert">&times;</button>
 </div>
 @endif
 
 @if ($message = Session::get('error'))
-<div class="alert alert-danger alert-block">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    <strong>{{ $message }}</strong>
+<div class="custom-alert alert-danger" id="alertBox">
+    <span class="alert-message">{{ $message }}</span>
+    <button type="button" class="alert-close" data-dismiss="alert">&times;</button>
 </div>
 @endif
+
 
 <section class="card">
     <div class="card-header-lg" style="background-color: #2c313e">
         <h4 class="text-center font-weight-bold text-white" style="margin-top: 20px">DAFTAR PEMINJAMAN</h4>
     </div>
-    <div class="card-block">
+    <div class="card-block table-responsive">
         <a href="{{route('admin.peminjaman.tambah')}}" class="ml-lg-3 mb-3 btn btn-default"><i class="fa fa-plus-circle"></i> Tambah</a>
         <a class="btn btn-success tb-detail mb-3" href="{{route('admin.peminjaman.excel')}}"><i class="fa fa-file-pdf-o"></i> Excel
         </a>
@@ -64,9 +65,9 @@
                         @elseif($row->keterangan === 'dipinjam')
                         <span class="badge bg-success">Dipinjam</span>
                         @elseif($row->keterangan === 'dikembalikan')
-                        <span class="badge bg-primary">Dikembalikan</span>
+                        <span class="badge bg-info">Dikembalikan</span>
                         @elseif($row->keterangan === 'terlambat')
-                        <span class="badge bg-warning">Terlambat</span>
+                        <span class="badge bg-secondary">Terlambat</span>
                         @endif
                     </td>
 
@@ -159,14 +160,17 @@
 
 
                     <td class="text-center">
-                        <a href="{{ route('admin.peminjaman.edit', $row->id_peminjaman) }}">
-                            <i class="fa fa-pencil-square-o" style="color: #ffc107;"></i>
+                        <a href="{{ route('admin.peminjaman.edit', $row->id_peminjaman) }}"
+                            class="btn btn-warning btn-sm">
+                            <i class="fa fa-pencil-alt"></i>
                         </a>
-                        |
-                        <a href="{{ route('admin.peminjaman.hapus', $row->id_peminjaman) }}" onclick="return confirm('anda yakin ingin menghapus data ini?')">
-                            <i class="fa fa-trash-o" style="color: #dc3545;"></i>
+                        <a href="{{ route('admin.peminjaman.hapus', $row->id_peminjaman) }}"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('Anda yakin ingin menghapus data ini?')">
+                            <i class="fa fa-trash"></i>
                         </a>
                     </td>
+
                 </tr>
                 @empty
                 <tr>

@@ -4,142 +4,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEPAKAT DISKOMINFO</title>
-    <link rel="icon" href="{{ URL::asset('assets/img/logo.png') }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SEPAKAT DISKOMINFO - Kabupaten Kepulauan Mentawai</title>
+    <link rel="icon" href="{{ asset('assets/img/logo.png') }}" />
 
-    <!-- Bootstrap 5 -->
+    <!-- jQuery + Bootstrap 5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/lib/datatables-net/datatables.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/separate/vendor/datatables-net.min.css') }}">
-
-    <!-- Vendor CSS -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/lib/lobipanel/lobipanel.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/separate/vendor/lobipanel.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/lib/jqueryui/jquery-ui.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/separate/pages/widgets.min.css') }}">
-
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/css/main.css') }}">
-
-    <!-- SweetAlert + jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- CSS tambahan -->
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 
     <style>
-        body {
-            margin: 0;
-            padding-top: 70px;
-            /* supaya konten tidak ketiban header */
-            font-family: Arial, sans-serif;
+        :root {
+            --warna-utama: #007bff;
+            --warna-gelap: #003c8f;
+            --warna-sidebar: #0f172a;
+            --warna-teks: #e2e8f0;
+            --warna-putih: #ffffff;
         }
 
-        /* Header */
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
         .site-header {
-            height: 65px;
-            background: #fff;
-            border-bottom: 1px solid #ddd;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
+            height: 60px;
+            background: var(--warna-putih);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
         }
 
-        /* Sidebar style */
+        .site-header .site-logo img {
+            height: 42px;
+            display: block;
+        }
+
+        .site-header .site-logo span {
+            font-weight: 600;
+            color: black(--warna-utama);
+            font-size: 18px;
+            margin-left: 8px;
+        }
+
+        /* ===== SIDEBAR ===== */
         .sidebar {
+            background-color: var(--warna-sidebar);
+            width: 230px;
             position: fixed;
-            top: 65px;
+            top: 0;
             left: 0;
-            height: calc(100% - 65px);
-            width: 220px;
-            background: #2c313e;
-            color: #fff;
-            transition: width 0.3s;
-            overflow-y: auto;
-            z-index: 999;
+            height: 100vh;
+            padding-top: 70px;
+            transition: all 0.3s ease;
+            z-index: 1000;
         }
 
-        .sidebar.collapsed {
-            width: 70px;
+        .sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Header kecil di dalam sidebar untuk toggle */
-        .sidebar-header {
-            display: flex;
-            justify-content: flex-end;
-            /* default di kanan */
-            padding: 10px;
-            position: relative;
-        }
-
-        /* Toggle Button */
-        .toggle-btn {
-            background: #fff;
-            /* putih polos */
-            border: none;
-            color: #333;
-            /* ikon gelap */
-            font-size: 10px;
-            padding: 8px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .toggle-btn:hover {
-            background: #f1f1f1;
-            /* abu muda saat hover */
-        }
-
-        /* Saat sidebar collapsed → tombol pindah ke tengah */
-        .sidebar.collapsed .sidebar-header {
-            justify-content: center;
-        }
-
-        /* Link menu */
-        .sidebar a {
+        .sidebar .nav-link {
+            color: var(--warna-teks);
+            padding: 12px 20px;
             display: flex;
             align-items: center;
-            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .sidebar .nav-link i {
+            width: 22px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: var(--warna-utama);
+            color: var(--warna-putih);
+        }
+
+        /* ===== KONTEN ===== */
+        .page-content {
+            margin-left: 230px;
+            margin-top: 70px;
+            padding: 25px;
+            min-height: 100vh;
+            background: #f8fafc;
+            transition: 0.3s;
+        }
+
+        /* ===== TOGGLE BUTTON (HP) ===== */
+        .toggle-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: var(--warna-utama);
             color: #fff;
-            text-decoration: none;
-            transition: background 0.3s;
-            white-space: nowrap;
-        }
-
-        .sidebar a:hover {
-            background: #1a1d25;
-        }
-
-        .sidebar a i {
-            margin-right: 12px;
-            font-size: 18px;
-            min-width: 25px;
-            text-align: center;
-        }
-
-        .sidebar.collapsed a span {
+            border: none;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 20px;
+            z-index: 1100;
             display: none;
         }
 
-        /* Content */
-        .main-content {
-            margin-left: 220px;
-            padding: 15px 20px;
-            transition: margin-left 0.3s;
-        }
 
-        .sidebar.collapsed~.main-content {
-            margin-left: 70px;
+        /* ===== RESPONSIVE HP ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -240px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .page-content {
+                margin-left: 0;
+            }
+
+            .toggle-btn {
+                display: block;
+            }
+
+            .site-header {
+                padding-left: 55px;
+            }
         }
 
         /* Tombol user info (biar rata atas-bawah & flat) */
@@ -194,23 +204,111 @@
             background-color: #f8f9fa;
             color: #000;
         }
-    </style>
 
+        .custom-alert {
+            position: relative;
+            padding: 14px 45px 14px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin: 20px auto;
+            border: 1px solid transparent;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            width: 95%;
+            max-width: 800px;
+            animation: fadeInDown 0.5s ease;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Warna alert sukses */
+        .custom-alert.alert-success {
+            background-color: #e6f9ec;
+            border-color: #b6e7c1;
+            color: #2d6a4f;
+        }
+
+        /* Warna alert error */
+        .custom-alert.alert-danger {
+            background-color: #fdecea;
+            border-color: #f5c2c7;
+            color: #842029;
+        }
+
+        /* Tombol close */
+        .alert-close {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.6;
+            transition: 0.2s ease;
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        /* Animasi masuk */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            /* biar smooth di HP */
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            min-width: 100%;
+            border-collapse: collapse;
+            table-layout: auto;
+        }
+
+        table th,
+        table td {
+            white-space: nowrap;
+            /* biar teks tidak turun ke bawah */
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .dataTables_wrapper {
+            overflow-x: auto;
+        }
+    </style>
 </head>
 
-<body class="horizontal-navigation">
+<body>
+    <!-- Tombol Sidebar Mobile -->
+    <button class="toggle-btn" id="toggleSidebar">
+        <i class="fa-solid fa-bars"></i>
+    </button>
 
-    <!-- Header -->
+    <!-- HEADER -->
     <header class="site-header">
-        <!-- Logo -->
-        <div class="container-fluid d-flex align-items-center gap-3">
-            <a href="#" class="site-logo">
-                <img src="{{ URL::asset('assets/img/mentawai.png') }}" alt="Logo" height="40" class="d-none d-md-block me-2">
-                <img src="{{ URL::asset('assets/img/logo_kominfo.png') }}" alt="Logo" height="35">
-            </a>
-        </div>
+        <a href="{{ route('staff.dashboard.index') }}" class="site-logo d-flex align-items-center text-decoration-none ">
+            <img src="{{ URL::asset('assets/img/mentawai.png') }}" alt="Logo" height="40" class="d-none d-md-block me-2">
+            <img src="{{ asset('assets/img/logo_kominfo.png') }}" alt="Logo">
+            <span class="text-center">SEPAKAT DINAS KOMUNIKASI DAN INFORMATIKA KABUPATEN KEPULAUAN MENTAWAI</span>
+        </a>
 
-        <!-- User Info -->
         <div class="dropdown">
             <button class="dropdown-toggle d-flex align-items-center" type="button"
                 id="dd-user-menu" data-bs-toggle="dropdown" aria-expanded="false">
@@ -227,38 +325,66 @@
         </div>
     </header>
 
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <button id="toggleSidebar" class="toggle-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ route('staff.dashboard.index') }}">
+                    <i class="fa-solid fa-house"></i> Beranda
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('staff.barang.index') }}">
+                    <i class="fa-solid fa-box"></i> Barang
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('staff.peminjaman.index') }}">
+                    <i class="fa-solid fa-clipboard-list"></i> Peminjaman
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-        <a href="{{ route('staff.dashboard.index') }}"><i class="fa-solid fa-gauge"></i><span>DASHBOARD</span></a>
-        <a href="{{ route('staff.barang.index') }}"><i class="fas fa-box"></i><span>BARANG</span></a>
-        <a href="{{ route('staff.peminjaman.index') }}"><i class="fas fa-hand-holding"></i><span>PEMINJAMAN</span></a>
-    </div>
-
-
-    <!-- Konten -->
-    <div class="main-content">
+    <!-- KONTEN UTAMA -->
+    <main class="page-content">
         <div class="container-fluid">
-            @yield('staff.content')
+            @yield('Staff/content')
         </div>
-    </div>
+    </main>
 
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ URL::asset('assets/js/lib/datatables-net/datatables.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/app.js') }}"></script>
-
+    <!-- SCRIPT TOGGLE -->
     <script>
-        document.getElementById("toggleSidebar").addEventListener("click", function() {
-            document.getElementById("sidebar").classList.toggle("collapsed");
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+
+        setTimeout(() => {
+            const alertBox = document.getElementById('alertBox');
+            if (alertBox) {
+                alertBox.style.opacity = '0';
+                setTimeout(() => alertBox.remove(), 400); // hapus dari DOM setelah animasi
+            }
+        }, 3000);
+
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('alert-close')) {
+                const alertBox = e.target.closest('.custom-alert');
+                alertBox.style.opacity = '0';
+                setTimeout(() => alertBox.remove(), 300);
+            }
+        });
+
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                scrollX: true, // aktifkan scroll horizontal
+                autoWidth: false,
+                responsive: true
+            });
         });
     </script>
-
 </body>
 
 </html>

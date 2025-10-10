@@ -16,7 +16,7 @@ class PeminjamanController
 {
     public function index()
     {
-        $peminjaman = Peminjaman::select(
+        $peminjaman = peminjaman::select(
             'peminjaman.*',
             'pengguna.nama_pengguna as pengguna',
             'barang.nama_barang as barang'
@@ -33,14 +33,14 @@ class PeminjamanController
             }
         }
 
-        return view('admin.content.peminjaman.index', compact('peminjaman'));
+        return view('Admin/content/peminjaman/index', compact('peminjaman'));
     }
 
     public function tambah(Request $request)
     {
-        $peminjaman = Peminjaman::all();
-        $barang = Barang::all();
-        return view('admin.content.peminjaman.tambah', compact('peminjaman', 'barang'));
+        $peminjaman = peminjaman::all();
+        $barang = barang::all();
+        return view('Admin/content/peminjaman/tambah', compact('peminjaman', 'barang'));
     }
 
 
@@ -56,7 +56,7 @@ class PeminjamanController
             'jumlah_pinjam' => 'required|integer|min:1',
         ]);
 
-        $barang = Barang::findOrFail($request->id_barang);
+        $barang = barang::findOrFail($request->id_barang);
 
         // cek stok
         if ($barang->jumlah_tersedia < $request->jumlah_pinjam) {
@@ -67,7 +67,7 @@ class PeminjamanController
         $barang->jumlah_tersedia -= $request->jumlah_pinjam;
         $barang->save();
 
-        Peminjaman::create([
+        peminjaman::create([
             'detail_kegiatan'     => $request->detail_kegiatan,
             'tgl_peminjaman'      => $request->tgl_peminjaman,
             'batas_peminjaman'    => $request->batas_peminjaman,
@@ -84,14 +84,14 @@ class PeminjamanController
 
     public function edit(Request $request, $id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
-        $barang = Barang::all();
-        return view('admin.content.peminjaman.edit', compact('peminjaman', 'barang'));
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
+        $barang = barang::all();
+        return view('Admin/content/peminjaman/edit', compact('peminjaman', 'barang'));
     }
 
     public function update(Request $request, $id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
         $peminjaman->tgl_peminjaman   = $request->tgl_peminjaman;
         $peminjaman->detail_kegiatan  = $request->detail_kegiatan;
         $peminjaman->batas_peminjaman = $request->batas_peminjaman;
@@ -101,7 +101,7 @@ class PeminjamanController
 
         // jika status diubah jadi dikembalikan
         if ($request->keterangan === 'dikembalikan' && $peminjaman->keterangan !== 'dikembalikan') {
-            $barang = Barang::findOrFail($peminjaman->id_barang);
+            $barang = barang::findOrFail($peminjaman->id_barang);
             $barang->jumlah_tersedia += $peminjaman->jumlah_pinjam;
             $barang->save();
         }
@@ -112,19 +112,19 @@ class PeminjamanController
             $peminjaman->update();
             return redirect()->route('admin.peminjaman.index')->with('succeed', 'Ubah Data Peminjaman Berhasil!');
         } catch (\Exception $e) {
-            return redirect()->route('admin.peminjaman.index')->with('fail', 'Ubah Data Peminjaman Gagal!');
+            return redirect()->route('admin.peminjaman.index')->with('warning', 'Ubah Data Peminjaman Gagal!');
         }
     }
 
     public function setuju($id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
 
         if ($peminjaman->keterangan !== 'pengajuan') {
             return back()->with('error', 'Peminjaman ini sudah diproses sebelumnya.');
         }
 
-        $barang = Barang::findOrFail($peminjaman->id_barang);
+        $barang = barang::findOrFail($peminjaman->id_barang);
 
         // cek stok sebelum setuju
         if ($barang->jumlah_tersedia < $peminjaman->jumlah_pinjam) {
@@ -154,7 +154,7 @@ class PeminjamanController
 
         // Cegah penolakan ganda
         if ($peminjaman->keterangan === 'ditolak') {
-            return redirect()->back()->with('Gagal', 'Peminjaman ini sudah ditolak sebelumnya.');
+            return redirect()->back()->with('error', 'Peminjaman ini sudah ditolak sebelumnya.');
         }
 
         $peminjaman->keterangan = 'ditolak';
@@ -166,7 +166,7 @@ class PeminjamanController
             'alasan_penolakan' => $request->alasan_penolakan,
         ]);
 
-        return redirect()->back()->with('Berhasil', 'Peminjaman ditolak dengan alasan: ' . $request->alasan_penolakan);
+        return redirect()->back()->with('success', 'Peminjaman ditolak dengan alasan: ' . $request->alasan_penolakan);
     }
 
 
@@ -176,7 +176,7 @@ class PeminjamanController
 
     public function hapus($id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
 
         try {
             $peminjaman->delete();
@@ -202,10 +202,10 @@ class PeminjamanController
     // Barang dikembalikan
     public function kembalikan($id_peminjaman)
     {
-        $peminjaman = Peminjaman::findOrFail($id_peminjaman);
+        $peminjaman = peminjaman::findOrFail($id_peminjaman);
 
         if (in_array($peminjaman->keterangan, ['dipinjam', 'terlambat'])) {
-            $barang = Barang::findOrFail($peminjaman->id_barang);
+            $barang = barang::findOrFail($peminjaman->id_barang);
             $barang->jumlah_tersedia += $peminjaman->jumlah_pinjam;
             $barang->save();
 
@@ -226,7 +226,7 @@ class PeminjamanController
     }
     public function pdf()
     {
-        $peminjaman = Peminjaman::select(
+        $peminjaman = peminjaman::select(
             'detail_kegiatan',
             'tgl_peminjaman',
             'batas_peminjaman',
@@ -240,7 +240,7 @@ class PeminjamanController
             ->get();
 
         view()->share('data', $peminjaman);
-        $pdf = PDF::loadview('admin/content/peminjaman/pdf');
+        $pdf = PDF::loadview('Admin/content/peminjaman/pdf');
         return $pdf->download('Data Peminjaman.pdf');
     }
 }

@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $totalPeminjaman  = peminjaman::where('id_pengguna', Auth::id())->count(); // jumlah peminjaman user login
         // jumlah peminjaman
 
-        return view('staff/content/dashboard', compact(
+        return view('Staff/content/dashboard', compact(
             'totalBarang',
             'totalStokBarang',
             'totalPeminjaman'
